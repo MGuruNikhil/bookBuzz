@@ -17,14 +17,14 @@ const app = express();
 app.use(express.json());
 
 // CORS Configuration for deployment
-// app.use(cors({
-//     origin: 'https://.vercel.app',
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-// }));
+app.use(cors({
+    origin: 'https://bookbuzz-nik.vercel.app/',
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+}));
 
 //localhost
-app.use(cors());
+// app.use(cors());
 
 app.use(passport.initialize());
 
