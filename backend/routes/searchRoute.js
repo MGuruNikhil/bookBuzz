@@ -60,7 +60,7 @@ router.get('/author', async (req, res) => {
     }
 });
 
-// get all books whose isbm contains the search query
+// get all books whose isbn contains the search query
 router.get('/isbn', async (req, res) => {
     try {
         const encodedQuery = req.query.query;
