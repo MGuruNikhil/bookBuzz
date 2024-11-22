@@ -3,6 +3,7 @@ import cors from "cors";
 import passport from "passport";
 import 'dotenv/config';
 import authRoute from "./routes/authRoute.js";
+import bookRoute from "./routes/bookRoute.js";
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
 import User from "./models/user.js";
@@ -48,5 +49,6 @@ app.get('/', function (req, res) {
 });
 
 app.use('/auth', authRoute);
+app.use('/books', bookRoute);
 
 export default app;

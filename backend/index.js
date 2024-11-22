@@ -1,7 +1,7 @@
 import app from "./app.js";
 import { PORT } from "./config.js";
 import sequelize from "./database.js";
-import User from "./models/user.js"; // Ensure the User model is imported
+import './models/index.js'; // Ensure the associations are defined
 
 // Synchronize the models with the database
 sequelize.sync({ force: false }).then(() => {
