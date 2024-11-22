@@ -52,7 +52,7 @@ router.post("/", passport.authenticate('jwt', { session: false }), async (req, r
     }
 });
 
-router.get("/", passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const { bookId } = req.query;
         if (!bookId) {

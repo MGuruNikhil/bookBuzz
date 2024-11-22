@@ -5,6 +5,8 @@ import 'dotenv/config';
 import authRoute from "./routes/authRoute.js";
 import bookRoute from "./routes/bookRoute.js";
 import reviewRoute from "./routes/reviewRoute.js";
+import searchRoute from "./routes/searchRoute.js";
+import recommendRoute from "./routes/recommendRoute.js";
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
 import { User } from "./models/index.js";
@@ -52,5 +54,7 @@ app.get('/', function (req, res) {
 app.use('/auth', authRoute);
 app.use('/books', bookRoute);
 app.use('/reviews', reviewRoute);
+app.use('/search', searchRoute);
+app.use('/recommend', recommendRoute);
 
 export default app;

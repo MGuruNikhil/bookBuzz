@@ -44,7 +44,7 @@ router.post("/", passport.authenticate('jwt', { session: false }), async (req, r
 // });
 
 // get a book whose id is passed as a parameter
-router.get("/:id", passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
         const book = await Book.findByPk(req.params.id);
         if (!book) {
