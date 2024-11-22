@@ -117,7 +117,7 @@ const LoginSignup = ({ showLoginSignup, setShowLoginSignup }) => {
 
     return (
         <div onClick={() => setShowLoginSignup(false)} className={`${showLoginSignup ? 'flex' : 'hidden'} w-full h-full items-center justify-center bg-inherit backdrop-blur-sm z-50 fixed top-0 right-0 left-0 bottom-0`}>
-            <div onClick={(e) => e.stopPropagation()} className='w-[30%] flex flex-col px-4 py-8 items-center justify-center bg-[#d2c2b57a] rounded-lg'>
+            <div onClick={(e) => e.stopPropagation()} className='w-[30%] flex flex-col px-4 py-8 items-center justify-center bg-[#c2ae9e] border-[1px] border-solid border-[#5b3e35] rounded-lg'>
                 <div className='w-full flex items-center justify-center'>
                     <div onClick={() => setShowLogin(true)} className={`${showLogin ? 'bg-[#d2c2b5]' : 'bg-white'} flex-1 text-center p-2 cursor-pointer`}>Log In</div>
                     <div onClick={() => setShowLogin(false)} className={`${!showLogin ? 'bg-[#d2c2b5]' : 'bg-white'} flex-1 text-center p-2 cursor-pointer`}>Sign Up</div>

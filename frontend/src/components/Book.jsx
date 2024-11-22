@@ -1,16 +1,20 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { apiUrl } from '../../config';
 import LoadingAnimation from './LoadingAnimation';
-import { Star } from 'lucide-react';
+import { Pencil, Star } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
+import EditBook from './EditBook';
 
 const Book = () => {
 
+    const {user} = useContext(AuthContext);
     const { id } = useParams();
     const [book, setBook] = useState({});
     const [reviews, setReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showEditBook, setShowEditBook] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -49,7 +53,7 @@ const Book = () => {
 
     return (
         <div className='flex flex-col w-[80%] m-auto mt-2 rounded-lg bg-[#d2c2b593]'>
-            <div className='flex p-4 gap-4 bg-[#d2c2b5] rounded-lg'>
+            <div className='flex p-4 gap-4 bg-[#d2c2b5] rounded-lg relative'>
                 <img className='w-[150px]' src={book.coverImageUrl} alt="Book Cover" />
                 <div className='flex-1 flex flex-col justify-between'>
                     <div>
@@ -62,6 +66,7 @@ const Book = () => {
                         <p className='text-lg flex gap-2'><Star /> {book.rating}/5</p>
                     </div>
                 </div>
+                {(user && (book.userId == user.id)) && <button onClick={() => setShowEditBook(true)} className='absolute top-4 right-4 rounded-full p-4 bg-[#ad9a89] z-10'><Pencil /></button>}
             </div>
             {reviews && reviews.length > 0 && reviews.map((review, index) => (
                 <div key={index} className={`${(index != reviews.length-1) ? ' border-b-[1px] border-b-solid border-b-gray-600' : ''} flex flex-col p-4 gap-4`}>
@@ -72,9 +77,9 @@ const Book = () => {
                     <p>{review.text}</p>
                 </div>
             ))}
-
+            <EditBook setBook={setBook} showEditBook={showEditBook} setShowEditBook={setShowEditBook} id={book.id} oldTitle={book.title} oldAuthor={book.authorName} oldIsbn={book.isbn} oldGenre={book.genre} oldCoverImageUrl={book.coverImageUrl} />
         </div>
     )
-}
+}   
 
 export default Book

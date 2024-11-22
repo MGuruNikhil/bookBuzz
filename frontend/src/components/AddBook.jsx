@@ -35,7 +35,7 @@ const AddBook = ({ showAddBook, setShowAddBook }) => {
         //             coverImageUrl
         //         }, {
         //             headers: {
-        //                 Authorization: `Bearer ${localStorage.getItem("token")}`
+        //                 Authorization: `${localStorage.getItem("token")}`
         //             }
         //         }).then((res) => {
         //             console.log(res.data);
@@ -76,7 +76,7 @@ const AddBook = ({ showAddBook, setShowAddBook }) => {
                     <span>Upload Cover Page</span>
                 </label>
                 <input className="hidden" type="file" accept="image/*" name="coverImage" id="coverImage" />
-                <button onClick={handleSubmit} className='p-2 bg-[#5b3e35] text-[#c2ae9e] font-semibold rounded-md'>
+                <button onClick={handleSubmit} className='p-2 bg-[#916e63] text-[#c2ae9e] font-semibold rounded-md'>
                     {isLoading ? <LoadingAnimation /> : 'Add Book'}
                 </button>
             </div>
