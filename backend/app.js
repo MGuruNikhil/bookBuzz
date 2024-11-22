@@ -5,7 +5,7 @@ import 'dotenv/config';
 import authRoute from "./routes/authRoute.js";
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import { ExtractJwt } from 'passport-jwt';
-import client from "./database.js";
+import User from "./models/user.js";
 
 const app = express();
 
@@ -30,8 +30,7 @@ opts.secretOrKey = process.env.SECRET;
 
 passport.use(new JwtStrategy(opts, async function (jwt_payload, done) {
     try {
-        const data = await client.query(`SELECT * FROM users WHERE email= $1;`, [jwt_payload.email]);
-        const user = data.rows[0];
+        const user = await User.findOne({ where: { email: jwt_payload.email } });
         if (user) {
             return done(null, user);
         } else {
@@ -41,7 +40,6 @@ passport.use(new JwtStrategy(opts, async function (jwt_payload, done) {
         return done(error, false);
     }
 }));
-
 
 app.get('/', function (req, res) {
     res.send({

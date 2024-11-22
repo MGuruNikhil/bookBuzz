@@ -1,28 +1,20 @@
-import pg from 'pg'
-const { Pool } = pg
+import { Sequelize } from 'sequelize';
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-  
-      rejectUnauthorized: false,
-  
-    },
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
 });
 
-// CREATE TABLE "users" (
+try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+} catch (error) {
+    console.error('Unable to connect to the database:', error);
+}
 
-//   "id" SERIAL PRIMARY KEY,
-  
-//   "displayname" text NOT NULL,
-  
-//   "email" text NOT NULL UNIQUE,
-  
-//   "password" varchar NOT NULL
-  
-// );
-
-const client = await pool.connect();
-console.log(client ? "Connected to database" : "Failed to connect to database");
-
-export default client;
+export default sequelize;
