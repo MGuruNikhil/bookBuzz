@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import { compareSync, hashSync } from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/user.js";
+import { User } from "../models/index.js";
 
 const router = express.Router();
 

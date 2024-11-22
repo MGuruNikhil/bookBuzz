@@ -27,6 +27,11 @@ const Book = sequelize.define('Book', {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0
+    },
+    numberOfReviews: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
     }
 }, {
     tableName: 'books'
