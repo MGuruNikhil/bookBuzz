@@ -6,7 +6,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     return (
-        <div className='flex-1 bg-[#d2c2b5] flex px-8 py-4'>
+        <div className='h-[calc(100%-52px)] bg-[#d2c2b5] flex px-8 py-4'>
             <div className='w-[40%] h-full flex flex-col justify-center items-start gap-4'>
                 <p className='text-8xl font-bold'>Find Your Next Book</p>
                 <p className='mt-4 text-lg'>Not sure what to read next? Discover captivating books on <span className='font-bold text-[#5b3e35]'>BookBuzz</span>, guided by trusted reviews, personalized recommendations, and so much more!</p>

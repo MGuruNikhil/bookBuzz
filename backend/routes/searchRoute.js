@@ -7,7 +7,8 @@ const router = express.Router();
 // get all books whose title contains the search query
 router.get('/', async (req, res) => {
     try {
-        const { query } = req.query;
+        const encodedQuery = req.query.query;
+        const query = decodeURIComponent(encodedQuery);
         if (!query) {
             return res.status(400).send({
                 error: "Send all the required data (query)",
@@ -34,7 +35,8 @@ router.get('/', async (req, res) => {
 // get all books whose authorName contains the search query
 router.get('/author', async (req, res) => {
     try {
-        const { query } = req.query;
+        const encodedQuery = req.query.query;
+        const query = decodeURIComponent(encodedQuery);
         if (!query) {
             return res.status(400).send({
                 error: "Send all the required data (query)",
@@ -61,7 +63,8 @@ router.get('/author', async (req, res) => {
 // get all books whose isbm contains the search query
 router.get('/isbn', async (req, res) => {
     try {
-        const { query } = req.query;
+        const encodedQuery = req.query.query;
+        const query = decodeURIComponent(encodedQuery);
         if (!query) {
             return res.status(400).send({
                 error: "Send all the required data (query)",
@@ -88,7 +91,8 @@ router.get('/isbn', async (req, res) => {
 // get all books whose genre contains the search query
 router.get('/genre', async (req, res) => {
     try {
-        const { query } = req.body;
+        const encodedQuery = req.query.query;
+        const query = decodeURIComponent(encodedQuery);
         if (!query) {
             return res.status(400).send({
                 error: "Send all the required data (query)",

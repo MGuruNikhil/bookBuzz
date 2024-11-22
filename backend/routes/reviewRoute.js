@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import { Book, Review } from "../models/index.js";
+import { Book, Review, User } from "../models/index.js";
 
 const router = express.Router();
 
@@ -28,11 +28,14 @@ router.post("/", passport.authenticate('jwt', { session: false }), async (req, r
             });
         }
 
+        const user = await User.findByPk(req.user.id);
+
         const review = await Review.create({
             rating,
             text,
             bookId,
-            userId: req.user.id
+            userId: req.user.id,
+            userDisplayName: user.displayname
         });
 
         // Update the average rating of the book

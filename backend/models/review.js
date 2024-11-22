@@ -13,6 +13,10 @@ const Review = sequelize.define('Review', {
     text: {
         type: DataTypes.TEXT,
         allowNull: true
+    },
+    userDisplayName: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 }, {
     tableName: 'reviews'
