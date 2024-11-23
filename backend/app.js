@@ -18,7 +18,7 @@ app.use(express.json());
 
 // CORS Configuration for deployment
 app.use(cors({
-    origin: 'https://bookbuzz-nik.vercel.app/',
+    origin: 'https://bookbuzz-nik.vercel.app',
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }));
