@@ -16,45 +16,48 @@ const Recommendations = () => {
 
     useEffect(() => {
         setIsLoading(true);
+        
+        axios.get(apiUrl+'recommend/recent').then(res => {
+            if (res.status == 200) {
+                console.log(res.data);
+                setLatestBooks(res.data);
+            }
+        }).catch(error => {
+            console.log(error.message);
+        });
+        
         axios.get(apiUrl+'recommend/toprated').then(res => {
             if (res.status == 200) {
                 console.log(res.data);
                 setTopRatedBooks(res.data);
-                axios.get(apiUrl+'recommend/recent').then(res => {
-                    if (res.status == 200) {
-                        console.log(res.data);
-                        setLatestBooks(res.data);
-                        axios.get(apiUrl+'recommend/genres').then(res => {
-                            if (res.status == 200) {
-                                console.log(res.data);
-                                const genres = res.data.map(genre => genre.genre);
-                                let tempGenres = [];
-                                for(let i=0;i<genres.length;i++) {
-                                    const encodedGenre = encodeURIComponent(genres[i]);
-                                    axios.get(apiUrl+`search/genre?query=${encodedGenre}`).then(res => {
-                                        if (res.status == 200) {
-                                            console.log(res.data);
-                                            tempGenres.push(res.data);
-                                            setGenres([...tempGenres]);
-                                            if(i==genres.length-1) {
-                                                setIsLoading(false);
-                                            }
-                                        }
-                                    }).catch(error => {
-                                        if(i==genres.length-1) {
-                                            setIsLoading(false);
-                                        }
-                                        console.log(error.message);
-                                    });
-                                }
+            }
+        }).catch(error => {
+            console.log(error.message);
+        });
+
+        axios.get(apiUrl+'recommend/genres').then(res => {
+            if (res.status == 200) {
+                console.log(res.data);
+                const genres = res.data.map(genre => genre.genre);
+                let tempGenres = [];
+                for(let i=0;i<genres.length;i++) {
+                    const encodedGenre = encodeURIComponent(genres[i]);
+                    axios.get(apiUrl+`search/genre?query=${encodedGenre}`).then(res => {
+                        if (res.status == 200) {
+                            console.log(res.data);
+                            tempGenres.push(res.data);
+                            setGenres([...tempGenres]);
+                            if(i==genres.length-1) {
+                                setIsLoading(false);
                             }
-                        }).catch(error => {
-                            console.log(error.message);
-                        });
-                    }
-                }).catch(error => {
-                    console.log(error.message);
-                });
+                        }
+                    }).catch(error => {
+                        if(i==genres.length-1) {
+                            setIsLoading(false);
+                        }
+                        console.log(error.message);
+                    });
+                }
             }
         }).catch(error => {
             console.log(error.message);

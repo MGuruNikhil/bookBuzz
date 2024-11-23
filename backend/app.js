@@ -20,8 +20,7 @@ app.use(express.json());
 app.use(cors({
     origin: 'https://bookbuzz-nik.vercel.app',
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 }));
 
 //localhost
