@@ -1,5 +1,5 @@
 import express from "express";
-import { Book } from "../models/index.js";
+import { Book, Review } from "../models/index.js";
 import passport from "passport";
 
 const router = express.Router();
@@ -105,6 +105,18 @@ router.delete("/:id", passport.authenticate('jwt', { session: false }), async (r
                 error: "Book not found",
             });
         }
+
+        // destroy all the reviews of the book
+        const reviews = await Review.findAll({
+            where: {
+                bookId: book.id
+            }
+        });
+
+        for (let i = 0; i < reviews.length; i++) {
+            await reviews[i].destroy();
+        }
+
         await book.destroy();
         res.send({
             message: "Book deleted successfully"
