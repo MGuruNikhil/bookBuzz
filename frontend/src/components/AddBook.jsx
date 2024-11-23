@@ -1,11 +1,14 @@
 import { ImagePlus } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios';
 import { apiUrl } from '../../config.js';
-// import 'dotenv/config';
-// import { v2 as cloudinary } from 'cloudinary';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { storage } from '../../firebaseConfig.js';
+import { AuthContext } from '../../context/AuthContext.jsx';
+import LoadingAnimation from './LoadingAnimation.jsx';
 
 const AddBook = ({ showAddBook, setShowAddBook }) => {
+    const {isAuthenticated} = useContext(AuthContext);
     const [title, setTitle] = useState('');
     const [authorName, setAuthorName] = useState('');
     const [isbn, setIsbn] = useState('');
@@ -14,53 +17,47 @@ const AddBook = ({ showAddBook, setShowAddBook }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = () => {
+        if(isAuthenticated === false) {
+            alert('Please login to add a book.');
+            return;
+        }
         setTitle(title.trim());
         setAuthorName(authorName.trim());
         setIsbn(isbn.trim());
         setGenre(genre.trim());
-        // if(title != '' && authorName != '' && isbn != '' && genre != '' && coverImage != null) {
-        //     setIsLoading(true);
-
-        //     // upload cover image to cloudinary and get the url
-        //     cloudinary.uploader.upload(coverImage, {
-        //         upload_preset: 'bookstore'
-        //     }).then((res) => {
-        //         console.log(res);
-        //         const coverImageUrl = res.secure_url;
-        //         axios.post(apiUrl + "books/",{
-        //             title,
-        //             authorName,
-        //             isbn,
-        //             genre,
-        //             coverImageUrl
-        //         }, {
-        //             headers: {
-        //                 Authorization: `${localStorage.getItem("token")}`
-        //             }
-        //         }).then((res) => {
-        //             console.log(res.data);
-        //             setTitle('');
-        //             setAuthorName('');
-        //             setIsbn('');
-        //             setGenre('');
-        //             setCoverImage(null);
-        //             setShowAddBook(false);
-        //             setIsLoading(false);
-        //         }).catch((error) => {
-        //             console.log(error);
-        //             setTitle('');
-        //             setAuthorName('');
-        //             setIsbn('');
-        //             setGenre('');
-        //             setCoverImage(null);
-        //             setShowAddBook(false);
-        //             setIsLoading(false);
-        //         });
-        //     }).catch((error) => {
-        //         console.log(error);
-        //         setIsLoading(false);
-        //     });
-        // }
+        if(coverImage != null && title !== '' && authorName !== '' && isbn !== '' && genre !== '') {
+            setIsLoading(true);
+            const storageRef = ref(storage, 'coverImages/' + isbn + '.jpg');
+            const uploadTask = uploadBytesResumable(storageRef, coverImage);
+            uploadTask.on(
+                (error) => {
+                    console.log(error.message);
+                },
+                async () => {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    axios.post(apiUrl + 'books', {
+                        title: title,
+                        authorName: authorName,
+                        isbn: isbn,
+                        genre: genre,
+                        coverImageUrl: downloadURL
+                    }, {
+                        headers: {
+                            Authorization: `${localStorage.getItem("token")}`
+                        }
+                    }).then((response) => {
+                        console.log(response.data);
+                        setIsLoading(false);
+                        setShowAddBook(false);
+                    }).catch((error) => {
+                        console.log(error.message);
+                        setIsLoading(false);
+                    });
+                }
+            );
+        } else {
+            alert('Please fill in all fields and select a cover image.');
+        }
     }
 
     return (
@@ -75,7 +72,7 @@ const AddBook = ({ showAddBook, setShowAddBook }) => {
                     <ImagePlus />
                     <span>Upload Cover Page</span>
                 </label>
-                <input className="hidden" type="file" accept="image/*" name="coverImage" id="coverImage" />
+                <input onChange={(e) => setCoverImage(e.target.files[0])} className="hidden" type="file" accept="image/*" name="coverImage" id="coverImage" />
                 <button onClick={handleSubmit} className='p-2 bg-[#916e63] text-[#c2ae9e] font-semibold rounded-md'>
                     {isLoading ? <LoadingAnimation /> : 'Add Book'}
                 </button>
