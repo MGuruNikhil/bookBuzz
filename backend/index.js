@@ -12,3 +12,5 @@ sequelize.sync({ force: false }).then(() => {
 }).catch(error => {
     console.error('Unable to synchronize the database:', error);
 });
+
+export default app; // Add this line to export the app instance
