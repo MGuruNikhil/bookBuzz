@@ -75,14 +75,14 @@ const Recommendations = () => {
 
     return (
         <div className='flex flex-col overflow-y-scoll py-4'>
-            <div className='w-[95%] h-[354.35px] rounded-l-full self-end mt-4 px-40 py-2 overflow-x-scroll overflow-y-hidden bg-[#d2c2b5] flex flex-col gap-4 justify-center items-start'>
+            <div className='w-[95%] h-[354.35px] rounded-l-full self-end mt-4 px-40 py-2 overflow-x-scroll scrollbar-hidden overflow-y-hidden bg-[#d2c2b5] flex flex-col gap-4 justify-center items-start'>
                 <p className='font-bold text-2xl sticky left-0'>Top Rated</p>
                 <div className='flex gap-10'>
                     {topRatedBooks && topRatedBooks.map(book => <BookCard key={book.id} id={book.id} title={book.title} authorName={book.authorName} coverImageUrl={book.coverImageUrl} />)}
                 </div>
             </div>
 
-            <div className='w-[95%] h-[354.35px] rounded-r-full self-start mt-4 px-40 py-2 overflow-x-scroll overflow-y-hidden bg-[#d2c2b5] flex flex-col gap-4 justify-center items-start'>
+            <div className='w-[95%] h-[354.35px] rounded-r-full self-start mt-4 px-40 py-2 overflow-x-scroll scrollbar-hidden overflow-y-hidden bg-[#d2c2b5] flex flex-col gap-4 justify-center items-start'>
                 <p className='font-bold text-2xl sticky left-0'>Latest</p>
                 <div className='flex gap-10'>
                     {latestBooks && latestBooks.map(book => <BookCard key={book.id} id={book.id} title={book.title} authorName={book.authorName} coverImageUrl={book.coverImageUrl} />)}
@@ -90,7 +90,7 @@ const Recommendations = () => {
             </div>
 
             {genres && genres.map((genre, index) => (
-                <div key={index} className={`${(index%2==0) ? 'rounded-l-full rounded-r-none self-end' : 'rounded-r-full rounded-l-none self-start'} w-[95%] h-[354.35px] rounded-r-full mt-4 px-40 py-2 overflow-x-scroll overflow-y-hidden bg-[#d2c2b5] flex flex-col gap-4 justify-center items-start`}>
+                <div key={index} className={`${(index%2==0) ? 'rounded-l-full rounded-r-none self-end' : 'rounded-r-full rounded-l-none self-start'} w-[95%] h-[354.35px] rounded-r-full mt-4 px-40 py-2 overflow-x-scroll scrollbar-hidden overflow-y-hidden bg-[#d2c2b5] flex flex-col gap-4 justify-center items-start`}>
                     <p className='font-bold text-2xl sticky left-0'>{genre[0].genre}</p>
                     <div className='flex gap-10'>
                     {Array.isArray(genre) && genre.map(book => (
